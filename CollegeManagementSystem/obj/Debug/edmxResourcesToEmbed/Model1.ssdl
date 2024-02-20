@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CMS_dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Attendance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentID" Type="int" Nullable="false" />
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="AttendanceDate" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Status" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="varchar(max)" />
+    <Property Name="UpdatedOn" Type="datetime2" Precision="7" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Courses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="DepartmentId" Type="int" Nullable="false" />
+    <Property Name="CourseDescription" Type="varchar(max)" Nullable="false" />
+    <Property Name="CourseDuration" Type="int" Nullable="false" />
+    <Property Name="CourseFee" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="varchar(max)" />
+    <Property Name="UpdatedOn" Type="datetime2" Precision="7" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepartmentName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="varchar(max)" />
+    <Property Name="UpdatedOn" Type="datetime2" Precision="7" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Exams">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="ExamDate" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="ExamName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="MaxMarks" Type="int" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="varchar(max)" />
+    <Property Name="UpdatedOn" Type="datetime2" Precision="7" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Faculty">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FacultyName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="DateOfBirth" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Gender" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="ContactInfo" Type="int" Nullable="false" />
+    <Property Name="Address" Type="varchar(max)" Nullable="false" />
+    <Property Name="Department" Type="int" Nullable="false" />
+    <Property Name="JoiningDate" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="varchar(max)" />
+    <Property Name="UpdatedOn" Type="datetime2" Precision="7" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Fees">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentID" Type="int" Nullable="false" />
+    <Property Name="CourseID" Type="int" Nullable="false" />
+    <Property Name="FeeAmount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="PaymentDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="PaymentStatus" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="varchar(max)" />
+    <Property Name="UpdatedOn" Type="datetime2" Precision="7" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="LibraryBooks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookTitle" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Author" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="ISBN" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="PublicationYear" Type="int" Nullable="false" />
+    <Property Name="AvailabilityStatus" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="varchar(max)" />
+    <Property Name="UpdatedOn" Type="datetime2" Precision="7" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="LibraryTransactions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentID" Type="int" Nullable="false" />
+    <Property Name="BookID" Type="int" Nullable="false" />
+    <Property Name="IssueDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="ReturnDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="Status" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="varchar(max)" />
+    <Property Name="UpdatedOn" Type="datetime2" Precision="7" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Results">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentID" Type="int" Nullable="false" />
+    <Property Name="ExamID" Type="int" Nullable="false" />
+    <Property Name="MarksObtained" Type="int" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="varchar(max)" />
+    <Property Name="UpdatedOn" Type="datetime2" Precision="7" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="DateOfBirth" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Gender" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="ContactInfo" Type="int" Nullable="false" />
+    <Property Name="Address" Type="varchar(max)" Nullable="false" />
+    <Property Name="AdmissionDate" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CourseEnrolled" Type="int" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="varchar(max)" />
+    <Property Name="UpdatedOn" Type="datetime2" Precision="7" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Role" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar(max)" />
+    <Property Name="CreatedOn" Type="datetime2" Precision="7" />
+    <Property Name="UpdatedBy" Type="varchar(max)" />
+    <Property Name="UpdatedOn" Type="datetime2" Precision="7" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityContainer Name="CMS_dbModelStoreContainer">
+    <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Courses" EntityType="Self.Courses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Exams" EntityType="Self.Exams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Faculty" EntityType="Self.Faculty" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Fees" EntityType="Self.Fees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LibraryBooks" EntityType="Self.LibraryBooks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LibraryTransactions" EntityType="Self.LibraryTransactions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Results" EntityType="Self.Results" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

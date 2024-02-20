@@ -1,0 +1,42 @@
+﻿@model CollegeManagementSystem.Models.AttendanceViewModel
+
+@{
+    ViewBag.Title = "Mark Attendance";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("MarkAttendance", "Attendance", FormMethod.Post))
+{
+    <h2>Mark Attendance</h2>
+
+    <h3>Select Students:</h3>
+    for (var i = 0; i < Model.StudentList.Count; i++)
+    {
+        <div>
+            @Html.CheckBoxFor(m => m.StudentList[i].Selected)
+            @Html.LabelFor(m => m.StudentList[i].Selected, Model.StudentList[i].Text)
+            @Html.HiddenFor(m => m.StudentList[i].Value)
+            @Html.HiddenFor(m => m.StudentList[i].Text)
+        </div>
+    }
+
+    <br />
+
+    <div>
+        @Html.LabelFor(model => model.CourseID)
+        @Html.DropDownListFor(model => model.CourseID, Model.CourseList)
+    </div>
+
+    <br />
+
+    <div>
+        @Html.LabelFor(model => model.AttendanceDate)
+        @Html.EditorFor(model => model.AttendanceDate)
+    </div>
+
+    <br />
+
+    <br />
+
+    <input type="submit" value="Submit Attendance" />
+}

@@ -1,0 +1,414 @@
+﻿@model CollegeManagementSystem.Models.UserModel
+@{
+    ViewBag.Title = "Create User";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section css {}
+<div class="row container">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title">@ViewBag.Title</h4>
+            </div>
+            <div class="panel-body">
+                <form id="addUser">
+
+                    @*@using (Html.BeginForm("CreateUser", "Admin", new { uID = Request.QueryString["uID"] }, FormMethod.Post, new { id = "addUser" }))*@
+                    @*using (Html.BeginForm("CreateUser", "Admin", null, FormMethod.Post, new { id = "form-create-user" }))*@
+                    @*{*@
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Id)
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label>Name</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.Name, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @class = "form-control form-control-sm",
+                                        required = "required",
+                                        placeholder = "Name",
+                                        data_parsley_required_message = "Please Enter User Name",
+                                    }
+                                })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Role</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.RoleId, (IEnumerable<SelectListItem>)ViewData["ROLEselectListItems"], new { @class = "form-control form-control-sm", required = "required", data_parsley_required_message = "Please Select Role" })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Department</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.DeptId, (IEnumerable<SelectListItem>)ViewData["DEPTselectListItems"], new { @class = "form-control form-control-sm", required = "required", data_parsley_required_message = "Please Select Department" })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label>Username</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.Username, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @class = "form-control form-control-sm",
+                                        minlength = "2",
+                                        maxlength = "6",
+                                        required = "required",
+                                        placeholder = "Username",
+                                        data_parsley_required_message = "Please Enter Username",
+                                        data_parsley_length = "[2, 6]"
+                                    }
+                                })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Password</label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    @Html.EditorFor(model => model.Password, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control form-control-sm",
+                                       pattern = "(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9@]{6,20})$",
+                                       data_parsley_whitespace = "trim",
+                                       placeholder = "",
+                                       minlength = "6",
+                                       maxlength = "20",
+                                       required = "required",
+                                       data_parsley_required_message = "Please Enter Password"
+                                       //data_parsley_minlength_message= "Come on! You need to enter at least a 20 character comment.." ,
+                                       //data_parsley_validation_threshold = "10"
+                                   }
+                               })
+
+                                </div>
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Mobile No</label>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    @Html.EditorFor(model => model.PhoneNo, new
+                               {
+                                   htmlAttributes = new
+                                   {
+                                       @class = "form-control form-control-sm",
+                                       //pattern = "(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9@]{6,20})$",
+                                      // data_parsley_whitespace = "trim",
+                                       placeholder = "",
+                                      // minlength = "6",
+                                     //  maxlength = "20",
+                                       required = "required",
+                                       data_parsley_required_message = "Please Enter Phone No."
+                                       //data_parsley_minlength_message= "Come on! You need to enter at least a 20 character comment.." ,
+                                       //data_parsley_validation_threshold = "10"
+                                   }
+                               })
+
+                                </div>
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row rowStudent" style="display:none;">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Admission Date</label>
+                                @Html.EditorFor(model => model.AdmissionDate, new { htmlAttributes = new { @class = "form-control", data_parsley_required_message = "Please Enter Admission Date", type = "date" } })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Student DOB</label>
+                                @Html.EditorFor(model => model.StudentDOB, new { htmlAttributes = new { @class = "form-control", data_parsley_required_message = "Please Enter StudentDOB", type = "date" } })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>
+                                    @Html.RadioButtonFor(m => m.Gender, "Male", new { htmlAttributes = new { @class = "form-control", data_parsley_required_message = "Please Enter Gender" } })
+                                    Male
+                                </label>
+
+
+                                <div class="help-block"></div>
+                                <label>
+                                    @Html.RadioButtonFor(m => m.Gender, "Female", new { htmlAttributes = new { @class = "form-control", data_parsley_required_message = "Please Enter Gender" } })
+                                    Female
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row rowStudent" style="display:none;">
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>Address</label>
+                                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", data_parsley_required_message = "Please Enter Address" } })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>CourseEnrolled </label>
+                                @Html.DropDownListFor(model => model.CourseEnrolled, (IEnumerable<SelectListItem>)ViewData["CourseSelectListItems"], new { @class = "form-control form-control-sm", required = "required", data_parsley_required_message = "Please Select Department" })
+                                @*@Html.EditorFor(model => model.CourseEnrolled, new { htmlAttributes = new { @class = "form-control", data_parsley_required_message = "Please Enter CourseEnrolled" } })*@
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row rowFaculty" style="display:none;">
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>FacultyDOB</label>
+                                @Html.EditorFor(model => model.FacultyDOB, new { htmlAttributes = new { @class = "form-control", data_parsley_required_message = "Please Enter FacultyDOB", type = "date" } })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>
+
+                                    @Html.RadioButtonFor(m => m.FacultyGender, "Male", new { htmlAttributes = new { @class = "form-control FacultyGender", data_parsley_required_message = "Please Enter Gender" } })
+                                    Male
+                                </label>
+                                <div class="help-block"></div>
+                                <label>
+                                    @Html.RadioButtonFor(m => m.FacultyGender, "Female", new { htmlAttributes = new { @class = "form-control FacultyGender", data_parsley_required_message = "Please Enter Gender" } })
+                                    Female
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row rowFaculty" style="display:none;">
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>FacultyAddress</label>
+                                @Html.EditorFor(model => model.FacultyAddress, new { htmlAttributes = new { @class = "form-control", data_parsley_required_message = "Please Enter FacultyAddress" } })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>JoiningDate</label>
+                                @Html.EditorFor(model => model.JoiningDate, new { htmlAttributes = new { @class = "form-control", data_parsley_required_message = "Please Enter JoiningDate", type = "date" } })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-offset-10 col-lg-2 text-right">
+                            <div class="form-group">
+                                <input id="btnSaveUser" type="submit" value="Create" class="btn btn-sm btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$('#btnSaveUser').on('click', function () {
+            //    $('form#addUser').parsley(parsleyConfig).validate();
+            //});
+
+            //// Change event for Gender radio buttons
+            //$('input[name="Gender"]').on('change', function () {
+            //    if ($(this).is(':checked')) {
+            //        Gender = $(this).val(); // Assign the selected value to the 'Gender' variable
+            //    }
+            //});
+
+            //// Change event for Faculty Gender radio buttons
+            //$('input[name="FacultyGender"]').on('change', function () {
+            //    if ($(this).is(':checked')) {
+            //        FacultyGender = $(this).val(); // Assign the selected value to the 'FacultyGender' variable
+            //    }
+            //});
+        $('#RoleId').on('change', function() {
+                var ROLE =$('#RoleId option:selected').text();
+                if (ROLE === "Student") {
+                    $('.rowStudent').show();
+                    $('.rowFaculty').hide();
+                }
+
+            if (ROLE === "Faculty") {
+                $('.rowFaculty').show();
+                $('.rowStudent').hide();
+
+            }
+            if (ROLE === "Admin") {
+                $('.rowFaculty').hide();
+                $('.rowStudent').hide();
+            }
+
+             });
+
+
+            var ipName = $('#Name');
+            var slRole = $('#RoleId');
+            var slDept = $('#DeptId');
+            var ipUsername = $('#Username');
+            var ipPassword = $('#Password');
+            var ipPhoneNo = $('#PhoneNo');
+            var ipAdmissionDate = $('#AdmissionDate');
+            var ipStudentDOB = $('#StudentDOB');
+            var slGender = $('#Gender');
+            var ipAddress = $('#Address');
+            var slCourseEnrolled = $('#CourseEnrolled');
+            var ipFacultyName = $('#FacultyName');
+            var ipFacultyDOB = $('#FacultyDOB');
+            var ipFacultyGender = $('#FacultyGender')
+            //if ($("input[type='radio'].FacultyGender").is(':checked')) {
+            //    ipFacultyGender = $("input[type='radio'].FacultyGender:checked").val();
+            /*slGender = $("input[type='radio']:checked").val();*/
+
+
+            //var ipFacultyContactInfo = $('#FacultyContactInfo');
+            var ipFacultyAddress = $('#FacultyAddress');
+            var ipJoiningDate = $('#JoiningDate');
+
+
+
+            $('#btnSaveUser').on('click', function (e) {
+                e.preventDefault();
+                //var isValid = $('form#addUser').parsley(parsleyConfig).validate();
+                //if (isValid) {
+                    var Name = $(ipName).val();
+                    var RoleId = $(slRole).val();
+                    var Role = $('#RoleId option:selected').text();
+                    //var Role= $(slRole).text();
+                    var DeptId = $(slDept).val();
+                    var Username = $(ipUsername).val();
+                    var Password = $(ipPassword).val();
+                    var PhoneNo = $(ipPhoneNo).val();
+                    var AdmissionDate = $(ipAdmissionDate).val();
+                    var StudentDOB = $(ipStudentDOB).val();
+                var Gender= /*= $(slGender).val();*/
+                $('input[name="Gender"]:checked').val();
+
+                    var Address = $(ipAddress).val();
+                    var CourseEnrolled = $(slCourseEnrolled).val();
+                    //var FacultyName = $(ipFacultyName).val();
+                    var FacultyDOB = $(ipFacultyDOB).val();
+                    var FacultyGender = /*$(ipFacultyGender).val();*/
+                $('input[name="FacultyGender"]:checked').val();
+                    //var FacultyContactInfo = $(ipFacultyContactInfo).val();
+                    var FacultyAddress = $(ipFacultyAddress).val();
+                    var JoiningDate = $(ipJoiningDate).val();
+
+                    //var jsonData = JSON.stringify(UserData);
+                    //var iv = generateRandomHex(16);
+                    //var iv1 = generateRandomHex(16);
+
+                   // Generate a random 256-bit (32-byte) Key
+                   // var key1 = generateRandomHex(16);
+
+                    //var keyHex = CryptoJS.enc.Hex.parse(key);
+                    //var ivHex = CryptoJS.enc.Hex.parse(iv);
+
+
+                    // var key = CryptoJS.enc.Utf8.parse('8080808080808080');
+                    // var iv = CryptoJS.enc.Utf8.parse('8080808080808080');
+
+                    //var Name = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Name), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var Role = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Role), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var DeptId = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(DeptId), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var Username = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Username), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var Password = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Password), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var StudentName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(StudentName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var StudentDOB = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(StudentDOB), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var Gender = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Gender), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var Address = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(Address), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var CourseEnrolled = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(CourseEnrolled), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var FacultyName = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(FacultyName), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var FacultyDOB = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(FacultyDOB), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var FacultyGender = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(FacultyGender), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var FacultyContactInfo = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(FacultyContactInfo), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var FacultyAddress = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(FacultyAddress), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+                    //var JoiningDate = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(JoiningDate), key, { keySize: 128 / 8, iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+
+
+
+                    var UserData = {
+                        Name, Role, RoleId, PhoneNo, DeptId, Username, Password, AdmissionDate, StudentDOB, Gender, Address, CourseEnrolled, FacultyDOB, FacultyGender, FacultyAddress, JoiningDate
+                    };
+                    
+
+                   $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: '@Url.Action("CreateUser", "Admin")',
+                        data: JSON.stringify(UserData),
+                        //data: JSON.stringify({ encryptData: encPass.toString(), encryptionKey: key, encryptionIV: iv }),
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.IsSuccessful) {
+                                $.notify({ message: data.Message }, { type: 'info' });
+                            } else {
+                                $.notify({ message: data.Message }, { type: 'danger' });
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            $.notify({ message: errorThrown }, { type: 'danger' });
+                        }
+                    });
+                //}
+            });
+            $("#GeneratePassword").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    url: '@Url.Action("GeneratePassword", "Admin")',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Result == "success") {
+                            $("#Password").val(data.Password);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        callNotify(errorThrown, 'danger');
+                    }
+                });
+            });
+
+            function generateRandomHex(length) {
+        var characters = '0123456789ABCDEF';
+        var result = '';
+        for (var i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+    }
+        });
+    </script>
+}
+

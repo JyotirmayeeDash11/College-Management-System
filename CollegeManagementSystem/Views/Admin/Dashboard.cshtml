@@ -1,0 +1,86 @@
+﻿@*@model List<CollegeManagementSystem.Models.totalcount>*@
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+@section css {}
+    <style>
+        /* Dashboard styles */
+        .dashboard {
+            padding: 20px;
+        }
+
+            .dashboard h2 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+        .dashboard-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .dashboard-card {
+            flex: 1;
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+            .dashboard-card h3 {
+                font-size: 18px;
+                margin-bottom: 10px;
+                color: #333;
+            }
+
+            .dashboard-card p {
+                font-size: 24px;
+                font-weight: bold;
+                color: #444;
+            }
+
+            .dashboard-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+    </style>
+
+    <main>
+        <div class="dashboard">
+
+
+            <div class="dashboard-content">
+
+
+                @foreach (var x in Model)
+                {
+                    <div class="dashboard-card">
+                        <h3>Total Students</h3>
+                        <p id="dashboard-total-students">@x.totalstudent</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Total Faculty</h3>
+                        <p id="dashboard-total-faculty">@x.totalFaculty</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Courses Offered</h3>
+                        <p id="dashboard-courses-offered">@x.totalcourse</p>
+                    </div>
+                }
+
+                <div class="dashboard-card">
+                    <h3>Upcoming Events</h3>
+                    <p id="dashboard-upcoming-events">5</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    @section scripts{}

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<CollegeManagementSystem.Models.StudentModel>
+
+@{
+    ViewBag.Title = "ViewStudentManagement";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>ViewStudentManagement</h2>
+
+<p>
+    @Html.ActionLink("RegisterStudents", "Admin")
+
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactInfo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdmissionDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseEnrolled)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactInfo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdmissionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseEnrolled)
+            </td>
+
+            <td>
+               <a href="@Url.Action("EditStudents", "Admin", new {@id=item.Id})">Edit</a> |
+                @Html.ActionLink("Details", "Details", new { @id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { @id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+

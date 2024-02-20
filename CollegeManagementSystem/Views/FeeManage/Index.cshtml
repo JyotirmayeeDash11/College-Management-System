@@ -1,0 +1,316 @@
+﻿@model List<CollegeManagementSystem.Models.FeeModel>
+@{
+    ViewBag.Title = "Fees Details";
+
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section css {}
+<div class="row container">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title pull-left">@ViewBag.Title</h4>
+                <div class="input-group pull-right">
+                    <a class="btn btn-primary btn-sm" id="btnAdd" href="#"><i class="fa fa-plus-square"></i> ADD FEE</a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table id="tblMapping" class="table table-borderless table-striped tblMapping">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th>S.NO.</th>
+                                        <th>Department</th>
+                                        <th>Student</th>
+                                        <th>Course</th>
+                                        <th>Payment Date</th>
+                                        <th>Course Amount</th>
+                                        <th>Paid Amount</th>
+                                        <th>Action(S)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Select((data, index) => new { data, index }))
+                                    {
+                                        <tr>
+                                            <td>
+                                                @(item.index + 1)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.data.DeptName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.data.Student)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.data.Course)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.data.PaymentDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.data.CourseFee)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.data.PaidAmount)
+                                            </td>
+                                            <td>
+                                                <i class="fa fa-edit mg-sm-r-5 btnEdit" style="font-size:20px; color:green;" data-id="@item.data.Id" data-tooltipEx="tooltip" title="Edit Course fee"></i>
+                                                <i class="fa fa-trash-alt btnDelete" style="font-size:20px; color:red;" data-id="@item.data.Id" data-tooltipEx="tooltip" title="Delete Course fee"></i>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <input type="hidden" name="FeeId" id="FeeId" value="" />
+    @*//Add Fee *@
+    <div class="modal fade" id="AddModal"  role="dialog" >
+        <div class="modal-dialog" role="document" style="width:50%">
+            <div class="modal-content tx-size-sm">
+                <div class="modal-header pd-x-20">
+                    <h4 class="modal-title" id="addModalLabel" style="font-weight:bold">Add Fee</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btn_close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body" id="Add-Detail-Wrapper">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*//Edit fee*@
+    <div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document" style="width:30%">
+            <div class="modal-content tx-size-sm">
+                <div class="modal-header pd-x-20">
+                    <h4 class="modal-title" id="editModalLabel" style="font-weight:bold">Edit Fee</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btn_close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="Edit-Detail-Wrapper">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts {
+    <script type="text/javascript">
+    		$(document).ready(function () {
+                //$('#tblFee').dataTable();
+               // $('[data-tooltipEx="tooltip"]').tooltip();
+                //model for Add Fee
+                $("body").on("click", "#btnAdd", function (e) {
+                    $('#FeeId').val($(this).data("id"));
+                    $('#AddModal').modal('show');
+                });
+
+                $('#AddModal').on('shown.bs.modal', function (e)
+                {
+                    var $tokenwrapper = $('#Add-Detail-Wrapper');
+                    var feeId = $('#FeeId').val();
+                    $tokenwrapper.html('');
+                    $.get('@Url.Action("AddFee", "FeeManage")', { 'feeId': feeId }, function (data)
+                    {
+                        $tokenwrapper.html(data);
+                    });
+                });
+
+
+
+
+
+
+                $(document).on('change', "#DeptId", function () {
+                var deptId = $('#DeptId').val();
+                    var crsIdDLL = $('#CourseId');
+                crsIdDLL.empty();
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetCourseByDepartment", "FeeManage")",
+                    data: JSON.stringify({ 'deptId': deptId }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        //var result = JSON.parse(data);
+                        crsIdDLL.append($('<option/>', { value: '', text: '- Select Course -' }));
+                        $.each(data.Data, function (i, item) {
+                            crsIdDLL.append($('<option/>', { value: item.Value, text: item.Text }));
+                        });
+                    }
+                });
+
+
+                });
+
+
+               $(document).on('change', "#CourseId", function () {
+                var courseId = $('#CourseId').val();
+                var stdIdDLL = $('#StudentId');
+    //var roomIdDLL = $('#RoomId');
+                stdIdDLL.empty();
+    //roomIdDLL.empty();
+    $.ajax({
+        type: "POST",
+        url: "@Url.Action("GetStudentByCourse", "FeeManage")",
+        data: JSON.stringify({ 'courseId': courseId }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            //var result = JSON.parse(data);
+            stdIdDLL.append($('<option/>', { value: '', text: '- Select Student -' }));
+            $.each(data.Data, function (i, item) {
+                stdIdDLL.append($('<option/>', { value: item.Value, text: item.Text }));
+            });
+        }
+    });
+
+});
+
+
+
+                $("body").on("click", "#btnAddFee", function (e) {
+                e.preventDefault();
+                    var isValid = $('form#addFrm').parsley(parsleyConfig).validate();
+                if (isValid) {
+
+                    var StudentId = $('#StudentId').val();
+                    var DeptId = $('#DeptId').val();
+                    var CourseId = $('#CourseId').val();
+                    var CourseFee = $('#CourseFee').val();
+                    var PaidAmount = $('#PaidAmount').val();
+                    var PaymentDate = $('#PaymentDate').val();
+
+                    var ModelData = {
+                        StudentId, DeptId, CourseId, CourseFee, PaidAmount, PaymentDate
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: '@Url.Action("AddFee", "Master")',
+                        data: JSON.stringify(ModelData),
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.IsSuccessful) {
+                                $.notify({ message: data.Message }, { type: 'info' });
+
+                            } else {
+                                $.notify({ message: data.Message }, { type: 'danger' });
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            $.notify({ message: errorThrown }, { type: 'danger' });
+                        }
+                    });
+                }
+            });
+                 //model for Edit
+                $("body").on("click", ".btnEdit", function (e)
+                {
+                    $('#FeeId').val($(this).data("id"));
+                    $('#EditModal').modal('show');
+                });
+
+                $('#EditModal').on('shown.bs.modal', function (e)
+                {
+                    var $tokenwrapper = $('#Edit-Detail-Wrapper');
+                    var Id = $('#FeeId').val();
+                    $tokenwrapper.html('');
+                    $.get('@Url.Action("EditFee", "FeeManage")', { 'Id': Id }, function (data)
+                    {
+                        $tokenwrapper.html(data);
+                    });
+                });
+                $("body").on("click", "#btnEditFee", function (e) {
+                e.preventDefault();
+                    var isValid = $('form#editFrm').parsley(parsleyConfig).validate();
+                    if (isValid) {
+                        var StudentId = $('#StudentId').val();
+                        var DeptId = $('#DeptId').val();
+                        var CourseId = $('#CourseId').val();
+                        var CourseFee = $('#CourseFee').val();
+                        var PaidAmount = $('#PaidAmount').val();
+                        var PaymentDate = $('#PaymentDate').val();
+                        var Id = $('#Id').val();
+                        var ModelData = {
+                            Id,StudentId, DeptId, CourseId, CourseFee, PaidAmount, PaymentDate
+                        };
+                    $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: '@Url.Action("UpdateFee", "FeeManage")',
+                        data: JSON.stringify(ModelData),
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.IsSuccessful) {
+                                $.notify({ message: data.Message }, { type: 'info' });
+                            } else {
+                                $.notify({ message: data.Message }, { type: 'danger' });
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            $.notify({ message: errorThrown }, { type: 'danger' });
+                        }
+                    });
+                }
+                });
+
+                //Delete Fee
+
+                $("body").on("click", ".btnDelete", function () {
+                    if (confirm('Do you really want to delete ?')) {
+                        var feeId = $(this).data("id");
+                        $.ajax({
+                            type: 'POST',
+                            contentType: 'application/json; charset=utf-8',
+                            url: '@Url.Action("DeleteFee", "FeeManage")',
+                            data: JSON.stringify({ 'feeId': feeId }),
+                            dataType: 'json',
+                            success: function (data) {
+                                if (data.IsSuccessful)
+                                {
+                                    $.notify({ message: data.Message }, { type: 'info' });
+                                    setTimeout(function ()
+                                    {
+                                        location.reload(true);
+                                    }, 5000);
+                                } else {
+                                    $.notify({ message: data.Message }, { type: 'danger' });
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                $.notify({ message: errorThrown }, { type: 'danger' });
+                            }
+                        });
+                    }
+                });
+                $("body").on("click", "#btn_close", function (e)
+                {
+                    location.reload();
+                });
+
+                //$('#DeptId').select2();
+                //$('#courseId').select2();
+                //$('#studentId').select2();
+            });
+
+
+
+    </script>
+}

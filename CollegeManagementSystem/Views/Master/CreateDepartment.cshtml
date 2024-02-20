@@ -1,0 +1,142 @@
+﻿@model CollegeManagementSystem.Models.Departments
+@{
+    ViewBag.Title = "CreateDepartment";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@section css {}
+
+<div class="row container">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title">@ViewBag.Title</h4>
+            </div>
+            <div class="panel-body">
+                <form id="addDept">
+
+                    @*@using (Html.BeginForm("CreateUser", "Admin", new { uID = Request.QueryString["uID"] }, FormMethod.Post, new { id = "addUser" }))*@
+                    @*using (Html.BeginForm("CreateUser", "Admin", null, FormMethod.Post, new { id = "form-create-user" }))*@
+                    @*{*@
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Id)
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label>Department</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.DeptName, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @class = "form-control form-control-sm",
+                                        required = "required",
+                                        placeholder = "Dept. Name",
+                                        data_parsley_required_message = "Please Enter Dept. Name",
+                                    }
+                                })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Dept Code</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.DeptCode, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @class = "form-control form-control-sm",
+                                        required = "required",
+                                        placeholder = "Dept. Code",
+                                        data_parsley_required_message = "Please Enter Dept. Code",
+                                    }
+                                })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Dept Short Name</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.DeptShortName, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @class = "form-control form-control-sm",
+                                        required = "required",
+                                        placeholder = "Dept. ShortName",
+                                        data_parsley_required_message = "Please Enter Dept. ShortName",
+                                    }
+                                })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-offset-10 col-lg-2 text-right">
+                            <div class="form-group">
+                                <input id="btnSave" type="submit" value="Create" class="btn btn-sm btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$('#btnSave').on('click', function () {
+            //    $('form#addUser').parsley(parsleyConfig).validate();
+            //});
+
+
+            var ipDeptName = $('#DeptName');
+            var ipDeptCode = $('#DeptCode');
+            var ipDeptShortName = $('#DeptShortName');
+
+
+
+            $('#btnSave').on('click', function (e) {
+                e.preventDefault();
+                //var isValid = $('form#addUser').parsley(parsleyConfig).validate();
+                //if (isValid) {
+                var DeptName = $(ipDeptName).val();
+                var DeptCode = $(ipDeptCode).val();
+                var DeptShortName = $(ipDeptShortName).val();
+
+
+
+                    var ModelData = {
+                        DeptName, DeptCode, DeptShortName
+                    };
+
+                   $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: '@Url.Action("CreateDepartment", "Master")',
+                       data: JSON.stringify(ModelData),
+                        //data: JSON.stringify({ encryptData: encPass.toString(), encryptionKey: key, encryptionIV: iv }),
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.IsSuccessful) {
+                                $.notify({ message: data.Message }, { type: 'info' });
+                            } else {
+                                $.notify({ message: data.Message }, { type: 'danger' });
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            $.notify({ message: errorThrown }, { type: 'danger' });
+                        }
+                    });
+                //}
+            });
+        });
+    </script>
+}
+

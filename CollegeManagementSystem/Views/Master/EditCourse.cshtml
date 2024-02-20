@@ -1,0 +1,171 @@
+﻿@model CollegeManagementSystem.Models.Courses
+
+@{
+    ViewBag.Title = "Edit Course";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@section css {}
+<div class="row container">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title">@ViewBag.Title</h4>
+            </div>
+            <div class="panel-body">
+                <form id="editCourse">
+
+                    @*@using (Html.BeginForm("CreateUser", "Admin", new { uID = Request.QueryString["uID"] }, FormMethod.Post, new { id = "addUser" }))*@
+                    @*using (Html.BeginForm("CreateUser", "Admin", null, FormMethod.Post, new { id = "form-create-user" }))*@
+                    @*{*@
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Id)
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label>Course Name</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.CourseName, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @class = "form-control form-control-sm",
+                                        required = "required",
+                                        placeholder = "Course Name",
+                                        data_parsley_required_message = "Please Enter Course Name",
+                                    }
+                                })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Course Description</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.CourseDescription, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @class = "form-control form-control-sm",
+                                        required = "required",
+                                        placeholder = "Course Description",
+                                        data_parsley_required_message = "Please Enter Course Description",
+                                    }
+                                })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Course Duration</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.CourseDuration, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @class = "form-control form-control-sm",
+                                        required = "required",
+                                        placeholder = "Course Duration",
+                                        data_parsley_required_message = "Please Enter Course Duration",
+                                    }
+                                })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Course Fee</label>
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.CourseFee, new
+                                {
+                                    htmlAttributes = new
+                                    {
+                                        @class = "form-control form-control-sm",
+                                        required = "required",
+                                        placeholder = "Course Fee",
+                                        data_parsley_required_message = "Please Enter Course Fee",
+                                    }
+                                })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Department</label>
+                            <div class="form-group">
+                                @Html.DropDownListFor(model => model.DeptId, (IEnumerable<SelectListItem>)ViewData["DeptSelectListItems"], new { @class = "form-control form-control-sm", required = "required", data_parsley_required_message = "Please Select Department" })
+                                <div class="help-block"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-offset-10 col-lg-2 text-right">
+                            <div class="form-group">
+                                <input id="btnUpdate" type="submit" value="Update" class="btn btn-sm btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$('#btnUpdate').on('click', function () {
+            //    $('form#addUser').parsley(parsleyConfig).validate();
+            //});
+
+
+            var ipCourseName = $('#CourseName');
+            var ipCourseDescription = $('#CourseDescription');
+            var ipCourseDuration = $('#CourseDuration');
+            var ipCourseFee = $('#CourseFee');
+            var ipCourseDuration = $('#CourseDuration');
+            var slDept = $('#DeptId');
+
+
+
+            $('#btnUpdate').on('click', function (e) {
+                e.preventDefault();
+                //var isValid = $('form#addUser').parsley(parsleyConfig).validate();
+                //if (isValid) {
+                var CourseName = $(ipCourseName).val();
+                var CourseDescription = $(ipCourseDescription).val();
+                var CourseDuration = $(ipCourseDuration).val();
+                var CourseFee = $(ipCourseFee).val();
+                var DeptId = $(slDept).val();
+
+
+
+                var ModelData = {
+                    CourseName, CourseDescription, CourseDuration, CourseFee, DeptId
+                };
+
+
+                   $.ajax({
+                        type: 'POST',
+                        contentType: 'application/json; charset=utf-8',
+                        url: '@Url.Action("EditCourse", "Master")',
+                       data: JSON.stringify(ModelData),
+                        //data: JSON.stringify({ encryptData: encPass.toString(), encryptionKey: key, encryptionIV: iv }),
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.IsSuccessful) {
+                                $.notify({ message: data.Message }, { type: 'info' });
+                            } else {
+                                $.notify({ message: data.Message }, { type: 'danger' });
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            $.notify({ message: errorThrown }, { type: 'danger' });
+                        }
+                    });
+                //}
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "twitter-bootstrap@4.6.2",
+      "destination": "Lib/twitter-bootstrap/"
+    },
+    {
+      "library": "jquery@3.6.4",
+      "destination": "Lib/jquery/"
+    },
+    {
+      "library": "popper.js@1.16.1",
+      "destination": "Lib/popper.js/"
+    },
+    {
+      "library": "bootstrap-notify@0.2.0",
+      "destination": "Lib/bootstrap-notify/"
+    },
+    {
+      "library": "parsley.js@2.9.2",
+      "destination": "Lib/parsley.js/"
+    }
+  ]
+}

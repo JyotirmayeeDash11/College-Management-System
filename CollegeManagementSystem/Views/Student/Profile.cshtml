@@ -1,0 +1,53 @@
+﻿@model CollegeManagementSystem.Models.StudentModels
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@section css{}
+<style>
+    .stdinfocontainer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+    }
+
+    .stdinfocard {
+        width: 23%;
+        padding: 1.5%;
+        margin-top: 8%;
+    }
+</style>
+
+<div class="stdinfocontainer">
+
+
+    <div class="stdinfocard">
+        <h3>StudentId</h3>
+        <p>@Model.StudId</p>
+    </div>
+    <div class="stdinfocard">
+        <h3>StudentName</h3>
+        <p>@Model.StudentName</p>
+    </div>
+    <div class="stdinfocard">
+        <h3>ContactInfo</h3>
+        <p>@Model.ContactInfo</p>
+    </div>
+
+    <div class="stdinfocard">
+        <h3>coursename</h3>
+        <p>@Model.coursename</p>
+    </div>
+    <div class="stdinfocard">
+        <h3>StudentDOB</h3>
+        <p>@Model.StudentDOB</p>
+    </div>
+    <div class="stdinfocard">
+        <h3>Gender</h3>
+        <p>@Model.Gender</p>
+    </div>
+
+</div>

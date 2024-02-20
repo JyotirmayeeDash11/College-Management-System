@@ -1,0 +1,108 @@
+﻿@model List<CollegeManagementSystem.Models.UserModel>
+@{
+    ViewBag.Title = "List of User";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+@section css {}
+<style>
+    input#btnSearch {
+        height: 31px;
+        line-height: 30px;
+        padding: 0px 11px;
+        font-size: 13px;
+        border-radius: 0 25px 25px 0;
+    }
+
+    .panel .panel-heading input[type=text] {
+        border-radius: 25px 0 0 25px;
+        box-shadow: none;
+        border-color: none;
+        height: 30px;
+        border: none;
+        margin-right: 0;
+    }
+
+    .btn-group-sm > .btn, .btn-sm i.fa.fa-plus-square {
+        margin-right: 3px;
+    }
+
+    a.btn.btn-primary.btn-sm {
+        border-radius: 25px;
+    }
+
+    .panel-heading .input-group {
+        box-shadow: none;
+    }
+</style>
+<div class="row container">
+    <div class="col-md-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4 class="panel-title pull-left">@ViewBag.Title</h4>
+                <div class="input-group pull-right">
+                    @*<input type="submit" id="btnSearch" class="btn btn-sm btn-success mg-lg-r-5" value="Search" />*@
+                    <a class="btn btn-primary btn-sm" href="@Url.Action("Create", "Admin")"><i class="fa fa-plus-square"></i> ADD USER</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table id="table" class="table">
+                                <thead class="text-primary">
+                                    <tr>
+                                        <th>S.NO.</th>
+                                        <th>USER NAME</th>
+                                        <th>NAME</th>
+                                        <th>MOBILE</th>
+                                        <th>ROLE</th>
+                                        <th>DEPARTMENT</th>
+                                        <th>ACTION(s)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Select((data, index) => new { data, index }))
+                                    {
+                                        <tr>
+                                            <td>
+                                                @(item.index + 1)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.data.Username)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.data.Name)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.data.PhoneNo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.data.Role)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.data.DeptName)
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Edit", "Edit", new { uID = item.data.Id }) |
+                                                @Html.ActionLink("Details", "Details", new { uID = item.data.Id }) |
+                                                @Html.ActionLink("Delete", "Delete", new { uID = item.data.Id }, new { onclick = "return confirm('Do you really want to delete this User?');" })
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+}
